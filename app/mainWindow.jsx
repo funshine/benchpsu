@@ -1,6 +1,17 @@
 'use strict';
 import React from "react";
 import ReactDOM from "react-dom";
+import WeUI from 'react-weui';
+import 'weui';
+const {Button} = WeUI;
+
+var App = React.createClass({
+    render() {
+        return (
+            <Button>hello wechat</Button>
+        );
+    }
+});
 
 var MainWindow = React.createClass({
     getInitialState: function () {
@@ -13,15 +24,7 @@ var MainWindow = React.createClass({
     },
     render: function () {
         return (
-            <div>
-                Hello world!!
-                <hr/>
-                <input type="text" onChange={this.handleTextChange} />
-                <p><strong>你輸入的是</strong></p>
-                <p>
-                    <span>{this.state.message}</span>
-                </p>
-            </div>
+            <App />
         );
     }
 });

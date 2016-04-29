@@ -34,3 +34,6 @@ node_modules
 
 # NAS
 .DS_Store
+
+# Webpack
+built
