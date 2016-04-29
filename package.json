@@ -1,0 +1,35 @@
+{
+  "name": "Cali",
+  "version": "1.0.0",
+  "description": "A benchPSU calibration and controll application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/funshine/benchpsu.git"
+  },
+  "keywords": [
+    "benchPSU",
+    "calibration",
+    "ADC",
+    "Controller"
+  ],
+  "author": "Zeroday",
+  "dependencies": {
+    "react": "^0.14.5",
+    "react-dom": "^0.14.5"
+  },
+  "devDependencies": {
+    "babel-core": "^6.3.26",
+    "babel-loader": "^6.2.1",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "electron-prebuilt": "^0.37.7",
+    "electron-packager": "^7.0.0",
+    "electron-rebuild": "^1.0.2",
+    "webpack": "^1.12.9",
+    "webpack-target-electron-renderer": "^0.3.0"
+  }
+}
