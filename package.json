@@ -10,6 +10,10 @@
     "type": "git",
     "url": "git+https://github.com/funshine/benchpsu.git"
   },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/funshine/benchpsu/issues"
+  },
   "keywords": [
     "benchPSU",
     "calibration",
