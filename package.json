@@ -5,7 +5,7 @@
   "main": "main.js",
   "private": true,
   "scripts": {
-    "start": "electron .",
+    "start": "./node_modules/.bin/electron .",
     "electron-rebuild": "./node_modules/.bin/electron-rebuild",
     "webpack": "./node_modules/.bin/webpack --watch"
   },

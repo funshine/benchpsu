@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 import WeUI from 'react-weui';
 import 'weui';
 import PowerValue from './powerValue';
-const {Button, Toast, ActionSheet, ButtonArea} = WeUI;
+const {Button, Toast, ActionSheet, ButtonArea, Input} = WeUI;
 
 class App extends React.Component {
     constructor(props) {
@@ -13,6 +13,7 @@ class App extends React.Component {
             showToast: false,
             showMenus: false,
             timer: null,
+            value: 0.0,
             menus: [{
                 label: '拍照',
                 onClick: () => {
@@ -43,9 +44,10 @@ class App extends React.Component {
                     <Button type="primary" size="small" disabled={true}>注意</Button>
                     <Button type="default" size="small" onClick={this.showMenus.bind(this) }>选择</Button>
                 </ButtonArea>
-                <PowerValue>6.66</PowerValue>
+                <PowerValue value={this.state.value}>6.66</PowerValue>
                 <PowerValue>-6.66</PowerValue>
                 <PowerValue>6.66</PowerValue>
+                <Input type="number" placeholder="请输入电压值" onChange={this.changeValue.bind(this) }/>
                 <Toast show={this.state.showToast}>loading...</Toast>
                 <ActionSheet show={this.state.showMenus} menus={this.state.menus} actions={this.state.actions} onRequestClose={this.hide.bind(this) } />
             </section>
@@ -63,6 +65,10 @@ class App extends React.Component {
 
     hide() {
         this.setState({ showMenus: false });
+    }
+
+    changeValue(e) {
+        this.setState({ value: Number(e.target.value) });
     }
 }
 
