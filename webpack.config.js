@@ -5,7 +5,8 @@ var path = require('path');
 
 var config = {
     entry: {
-        mainWindow: ['./app/mainWindow.jsx']
+        mainWindow: ['./app/mainWindow.jsx'],
+        powerValue: ['./app/powerValue.jsx']
     },
     output: {
         path: path.join(__dirname, 'dist'),
@@ -16,17 +17,11 @@ var config = {
             {
                 test: /\.jsx$/,
                 exclude: /node_modules/,
-                loader: 'babel',
-                query: {
-                    presets: ['react', 'es2015'],
-                }
+                loader: 'babel'
             }, {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                loader: 'babel',
-                query: {
-                    presets: ['es2015'],
-                }
+                loader: 'babel'
             }, {
                 test: /\.less$/,
                 loader: 'style!css!postcss!less'
@@ -38,6 +33,9 @@ var config = {
                 loader: 'url?limit=25000'
             }
         ]
+    },
+    resolve: {
+        extensions: ['', '.jsx', '.less', '.js', '.json']
     },
     plugins: [
         new webpack.DefinePlugin({
