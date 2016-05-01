@@ -6,6 +6,8 @@ var path = require('path');
 var config = {
     entry: {
         mainWindow: ['./app/mainWindow.jsx'],
+        powerController: ['./app/powerController.jsx'],
+        powerDisplay: ['./app/powerDisplay.jsx'],
         powerValue: ['./app/powerValue.jsx']
     },
     output: {
