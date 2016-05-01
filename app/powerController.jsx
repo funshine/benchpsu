@@ -39,26 +39,26 @@ class PowerController extends React.Component {
                     <tbody>
                         <tr>
                             <td>
-                                <PowerDisplay sparklineDisabled = {this.state.sparklineDisabled} data={this.state.pv}> </PowerDisplay>
+                                <PowerDisplay channel={1} name={"正电压"} errorMsg={"过压"} sparklineDisabled = {this.state.sparklineDisabled} data={this.state.pv}> </PowerDisplay>
                             </td>
                             <td>
-                                <PowerDisplay sparklineDisabled = {this.state.sparklineDisabled} data={this.state.pi}> </PowerDisplay>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <PowerDisplay sparklineDisabled = {this.state.sparklineDisabled} data={this.state.nv}> </PowerDisplay>
-                            </td>
-                            <td>
-                                <PowerDisplay sparklineDisabled = {this.state.sparklineDisabled} data={this.state.ni}> </PowerDisplay>
+                                <PowerDisplay channel={1} name={"正电流"} errorMsg={"过流"} sparklineDisabled = {this.state.sparklineDisabled} data={this.state.pi}> </PowerDisplay>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <PowerDisplay sparklineDisabled = {this.state.sparklineDisabled} data={this.state.nv}> </PowerDisplay>
+                                <PowerDisplay channel={1} name={"负电压"} sparklineDisabled = {this.state.sparklineDisabled} data={this.state.nv}> </PowerDisplay>
                             </td>
                             <td>
-                                <PowerDisplay sparklineDisabled = {this.state.sparklineDisabled} data={this.state.ni}> </PowerDisplay>
+                                <PowerDisplay channel={1} name={"负电流"} sparklineDisabled = {this.state.sparklineDisabled} data={this.state.ni}> </PowerDisplay>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <PowerDisplay channel={2} name={"电压"} sparklineDisabled = {this.state.sparklineDisabled} data={this.state.nv}> </PowerDisplay>
+                            </td>
+                            <td>
+                                <PowerDisplay channel={2} name={"电流"} sparklineDisabled = {this.state.sparklineDisabled} data={this.state.ni}> </PowerDisplay>
                             </td>
                         </tr>
                     </tbody>

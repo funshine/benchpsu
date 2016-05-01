@@ -8,20 +8,18 @@ import PowerValue from './powerValue';
 class PowerDisplay extends React.Component {
     static propTypes = {
         data: React.PropTypes.array,
-        digit_num: React.PropTypes.number,
         sparklineDisabled: React.PropTypes.bool,
         sparklineLimit: React.PropTypes.number,
-        width: React.PropTypes.number,
+        width: React.PropTypes.string,
         type: React.PropTypes.string,
         size: React.PropTypes.string
     };
 
     static defaultProps = {
         data: [],
-        digit_num: 4,
         sparklineDisabled: false,
         sparklineLimit: 10,
-        width: 200,
+        width: '30vw',
         type: 'primary',
         size: 'normal'
     };
@@ -31,13 +29,15 @@ class PowerDisplay extends React.Component {
     }
 
     render() {
-        const { data, sparklineLimit, sparklineDisabled, width, margin } = this.props;
+        const { data, sparklineLimit, sparklineDisabled, width, margin, ...others } = this.props;
         //if (data.length === 0) return null;
+        var sparklineWidth = Number(width.slice(0, -2)) * document.documentElement.clientWidth / 100;
+        var sparklineHeight = sparklineWidth * 0.33;
         return (
             <div style={[styles.base]}>
-                <PowerValue value={data.length===0?NaN:data[data.length - 1]} width={width}>value</PowerValue>
+                <PowerValue {...others} value={data.length === 0 ? NaN : data[data.length - 1]} width={width}>value</PowerValue>
                 {sparklineDisabled ? null : (
-                    <Sparklines data={sparklineDisabled ? null : data} limit={sparklineLimit} width={width} margin={margin}>
+                    <Sparklines data={sparklineDisabled ? null : data} limit={sparklineLimit} width={sparklineWidth} height={sparklineHeight} margin={2}>
                         <SparklinesLine color="#56b45d" style={{ strokeWidth: 1, stroke: "#336aff", fill: "#56b45d" }} />
                         <SparklinesSpots size={2}
                             style={{ stroke: "#56b45d", strokeWidth: 1, fill: "#56b45d" }} />
