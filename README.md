@@ -7,4 +7,6 @@ npm run clean
 
 npm install
 
+rm ./node_module/serialport/build/Release/serialport.node
+
 npm run electron-rebuild

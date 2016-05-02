@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "start": "./node_modules/.bin/electron .",
-    "electron-rebuild": "rm ./node_modules/serialport/build/Release/serialport.node && ./node_modules/.bin/electron-rebuild -v 0.37.7 -p -f -m ./ -w serialport -e ./node_modules/electron-prebuilt",
+    "remove-serialport": "rm ./node_modules/serialport/build/Release/serialport.node",
+    "electron-rebuild": "./node_modules/.bin/electron-rebuild -v 0.37.7 -p -f -m ./ -w serialport -e ./node_modules/electron-prebuilt",
     "webpack": "./node_modules/.bin/webpack --watch",
     "clean": "rm -rf node_modules"
   },
