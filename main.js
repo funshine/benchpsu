@@ -1,3 +1,6 @@
+var serialport = require('serialport');
+var SerialPort = serialport.SerialPort;
+
 const electron = require('electron');
 // Module to control application life.
 const app = electron.app;
@@ -7,6 +10,7 @@ const BrowserWindow = electron.BrowserWindow;
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+let port;
 
 function createWindow() {
   // Create the browser window.
@@ -17,6 +21,14 @@ function createWindow() {
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
+
+  port = new SerialPort('/dev/cu.usbmodem183', {
+    parser: serialport.parsers.readline('\n')
+  });
+
+  port.on('data', function (data) {
+    console.log('Data: ' + data);
+  });
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
