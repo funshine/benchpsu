@@ -8,7 +8,8 @@ var config = {
         mainWindow: ['./app/mainWindow.jsx'],
         powerController: ['./app/powerController.jsx'],
         powerDisplay: ['./app/powerDisplay.jsx'],
-        powerValue: ['./app/powerValue.jsx']
+        powerValue: ['./app/powerValue.jsx'],
+        textOutput: ['./app/textOutput.jsx']
     },
     output: {
         path: path.join(__dirname, 'dist'),

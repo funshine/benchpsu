@@ -4,6 +4,7 @@ import Radium from 'radium';
 import WeUI from 'react-weui';
 import 'weui';
 import PowerDisplay from './powerDisplay';
+import TextOutput from './textOutput';
 
 const {Button, Toast, ActionSheet, ButtonArea, Input} = WeUI;
 
@@ -20,15 +21,38 @@ class PowerController extends React.Component {
             pv: [],
             pi: [],
             nv: [],
-            ni: []
+            ni: [],
+            serialRead: "serial"
         };
+    }
+    componentDidMount() {
+        var serialport = window.require("serialport");
+        var SerialPort = serialport.SerialPort;
+        var port = new SerialPort('/dev/cu.usbmodem183', {
+            parser: serialport.parsers.readline('\n')
+        }, false);
+
+        var pComponent = this;
+        port.open(function (err) {
+            if (err) {
+                return console.log('Error opening serial port: ', err.message);
+            }
+            port.on('data', function (data) {
+                console.log(data);
+                pComponent.setState({
+                    serialRead: pComponent.state.serialRead + "\\\n" + data
+                });
+            });
+        });
     }
     componentWillUnmount() {
         this.state.repeatTimer && clearInterval(this.state.repeatTimer);
+        port.close();
     }
     render() {
         return (
             <section style={[styles.base]}>
+                <TextOutput value={this.state.serialRead}></TextOutput>
                 <ButtonArea>
                     <Button type="primary" disabled={this.state.startButtonDisabled} size="small" onClick={this.startRepeatTimer.bind(this) }>开始</Button>
                     <Button type="warn" size="small" disabled={this.state.stopButtonDisabled} onClick={this.stopRepeatTimer.bind(this) }>停止</Button>
@@ -86,13 +110,13 @@ class PowerController extends React.Component {
             return;
         }
         clearInterval(this.state.repeatTimer);
-        this.setState({ 
-            startButtonDisabled: false, 
+        this.setState({
+            startButtonDisabled: false,
             stopButtonDisabled: true,
             pv: [],
             pi: [],
             nv: [],
-            ni: [] 
+            ni: []
         });
     }
     clearPowerValue() {

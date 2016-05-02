@@ -1,5 +1,5 @@
-var serialport = require('serialport');
-var SerialPort = serialport.SerialPort;
+// var serialport = require('serialport');
+// var SerialPort = serialport.SerialPort;
 
 const electron = require('electron');
 // Module to control application life.
@@ -22,13 +22,18 @@ function createWindow() {
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
 
-  port = new SerialPort('/dev/cu.usbmodem183', {
-    parser: serialport.parsers.readline('\n')
-  });
+  // port = new SerialPort('/dev/cu.usbmodem183', {
+  //   parser: serialport.parsers.readline('\n')
+  // }, false);
 
-  port.on('data', function (data) {
-    console.log('Data: ' + data);
-  });
+  // port.open(function (err) {
+  //   if (err) {
+  //     return console.log('Error opening serial port: ', err.message);
+  //   }
+  //   port.on('data', function (data) {
+  //     console.log(data);
+  //   });
+  // });
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
