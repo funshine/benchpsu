@@ -11,9 +11,11 @@ npm config set registry https://registry.npm.taobao.org
 
   refer to node-gyp [Readme](https://github.com/nodejs/node-gyp/blob/master/README.md)
 
-  install Visual Studio 2015 Community, with Visual C++ 2015, SDK
-
+  FIRST of ALL, before install Visual Studio 2015, if using Windows 7, install Windows SDK 7.1(before this, you may need to install .Net Framework 4.0)
+  
   For 64-bit builds of node and native modules you will also need the [Windows 7 64-bit SDK](https://www.microsoft.com/en-us/download/details.aspx?id=8279)
+
+  install Visual Studio 2015 Community, with Visual C++ 2015, SDK
 
   You may need to run one of the following commands if your build complains about WindowsSDKDir not being set, and you are sure you have already installed the SDK:
 ```bash
