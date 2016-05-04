@@ -1,16 +1,17 @@
 'use strict';
 import React from "react";
 import ReactDOM from "react-dom";
-import PowerController from './powerController';
-import CommSetup from './commSetup';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import DarkRawTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+import AppComponent from './appComponent';
 
 class MainWindow extends React.Component {
     render() {
         return (
-            <sectrion>
-                <PowerController/>
-                <CommSetup/>
-            </sectrion>
+            <MuiThemeProvider muiTheme={getMuiTheme(DarkRawTheme) }>
+                <AppComponent/>
+            </MuiThemeProvider>
         );
     }
 }

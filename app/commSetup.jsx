@@ -66,12 +66,12 @@ class CommunicationSetup extends React.Component {
                     // console.log(port.manufacturer);
                     portSet.add(port.comName);
                 });
-                console.log("==>", this.state.ports, "<==");
+                // console.log("==>", this.state.ports, "<==");
                 if (this.portChanged(this.state.ports, portSet)) {
                     this.setState({
                         ports: portSet
                     });
-                    console.log("changed");
+                    // console.log("changed");
                 }
             }
         );
@@ -88,8 +88,6 @@ class CommunicationSetup extends React.Component {
         const cls = classNames({
             [className]: className
         });
-        let scanned = Array.from(this.state.ports);
-        console.log("hello")
         return (
             <section {...others} className={cls} style={[styles.base, styles.primary]}>
                 <SerialSetup onUserInput={this.handleUserInput} ports={this.state.ports}> </SerialSetup>
