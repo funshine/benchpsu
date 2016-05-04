@@ -10,7 +10,8 @@ var config = {
         powerDisplay: ['./app/powerDisplay.jsx'],
         powerValue: ['./app/powerValue.jsx'],
         textOutput: ['./app/textOutput.jsx'],
-        serialSetup: ['./app/serialSetup.jsx']
+        serialSetup: ['./app/serialSetup.jsx'],
+        commSetup: ['./app/commSetup.jsx']
     },
     output: {
         path: path.join(__dirname, 'dist'),

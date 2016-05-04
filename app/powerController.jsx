@@ -5,7 +5,6 @@ import WeUI from 'react-weui';
 import 'weui';
 import PowerDisplay from './powerDisplay';
 import TextOutput from './textOutput';
-import SerialSetup from './serialSetup';
 
 const {Button, Toast, ActionSheet, ButtonArea, Input} = WeUI;
 
@@ -53,7 +52,6 @@ class PowerController extends React.Component {
     render() {
         return (
             <section style={[styles.base]}>
-                <SerialSetup></SerialSetup>
                 <TextOutput value={this.state.serialRead}></TextOutput>
                 <ButtonArea>
                     <Button type="primary" disabled={this.state.startButtonDisabled} size="small" onClick={this.startRepeatTimer.bind(this) }>开始</Button>

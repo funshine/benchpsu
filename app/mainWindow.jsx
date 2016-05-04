@@ -2,11 +2,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import PowerController from './powerController';
+import CommSetup from './commSetup';
 
 class MainWindow extends React.Component {
     render() {
         return (
-            <PowerController/>
+            <sectrion>
+                <PowerController/>
+                <CommSetup/>
+            </sectrion>
         );
     }
 }

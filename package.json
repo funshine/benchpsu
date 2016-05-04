@@ -7,7 +7,7 @@
   "scripts": {
     "start": "./node_modules/.bin/electron .",
     "remove-serialport": "rm ./node_modules/serialport/build/Release/serialport.node",
-    "electron-rebuild": "./node_modules/.bin/electron-rebuild -v 0.37.7 -p -f -m ./ -w serialport -e ./node_modules/electron-prebuilt",
+    "electron-rebuild": "./node_modules/.bin/electron-rebuild -v 0.37.8 -p -f -m ./ -w serialport -e ./node_modules/electron-prebuilt",
     "webpack": "./node_modules/.bin/webpack --watch",
     "clean": "rm -rf node_modules"
   },
@@ -47,7 +47,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "css-loader": "^0.23.1",
     "electron-packager": "^7.0.0",
-    "electron-prebuilt": "^0.37.7",
+    "electron-prebuilt": "^0.37.8",
     "electron-rebuild": "^1.1.3",
     "eslint-plugin-react": "^5.0.1",
     "extract-text-webpack-plugin": "^1.0.1",
