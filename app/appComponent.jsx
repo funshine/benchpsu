@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import Radium from 'radium';
 import PowerController from './powerController';
 import CommSetup from './commSetup';
+import AppBar from 'material-ui/AppBar';
 import RaisedButton from 'material-ui/RaisedButton';
 
 @Radium
@@ -12,6 +13,7 @@ class AppComponent extends React.Component {
     render() {
         return (
             <div style={[styles.base, styles.primary]}>
+                <AppBar title="BenchPSU" />
                 <RaisedButton label="Default" />
                 <RaisedButton label="确认" />
                 <RaisedButton label="取消" />
