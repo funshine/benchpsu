@@ -51,8 +51,6 @@ class PowerDisplay extends React.Component {
 
 var styles = {
     base: {
-        display: 'block',
-        background: 'rgba(37, 40, 48, 1)',
         padding: '10px'
     }
 };

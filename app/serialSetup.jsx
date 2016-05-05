@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from "react-dom";
 import classNames from 'classnames';
 import Radium from 'radium';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
 @Radium
 class SerialSetup extends React.Component {
@@ -16,23 +18,36 @@ class SerialSetup extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            port: '',
+            baudrate: 115200,
+            databits: 8,
+            stopbits: 1,
+            parity: 'none'
+        }
     }
 
-    componentDidMount() {
+    componentDidUpdate() {
+        this.onUserInput();
     }
 
     componentWillUnmount() {
     }
 
-    handleChange() {
-        this.props.onUserInput && this.props.onUserInput(
-            this.refs.portSelectInput.value,
-            this.refs.baudrateSelectInput.value,
-            this.refs.databitsSelectInput.value,
-            this.refs.stopbitsSelectInput.value,
-            this.refs.paritySelectInput.value
+    onUserInput() {
+        this.props.onUserInput && this.state.port && this.props.onUserInput(
+            this.state.port,
+            this.state.baudrate,
+            this.state.databits,
+            this.state.stopbits,
+            this.state.parity
         )
     }
+    handlePortChange = (event, index, value) => this.setState({ port: value });
+    handleBaudrateChange = (event, index, value) => this.setState({ baudrate: value });
+    handleDatabitsChange = (event, index, value) => this.setState({ databits: value });
+    handleStopbitsChange = (event, index, value) => this.setState({ stopbits: value });
+    handleParityChange = (event, index, value) => this.setState({ parity: value });
 
     render() {
         const {className, ports, ...others} = this.props;
@@ -44,50 +59,61 @@ class SerialSetup extends React.Component {
         }
         return (
             <div {...others} className={cls} style={[styles.base, styles.primary]}>
-                <form name="port" onChange={this.handleChange.bind(this) }>
-                    <label>Port:
-                        <select name="port_select" ref="portSelectInput">
-                            {Array.from(ports).map((port) => {
-                                return (
-                                    <option value={port} key={port}>
-                                        {port}
-                                    </option>
-                                );
-                            }) }
-                        </select>
-                    </label>
-                </form>
-                <form name="config" onChange={this.handleChange.bind(this) } >
-                    <label>Baudrate:
-                        <select name = "baudrate_select" ref="baudrateSelectInput">
-                            <option value={9600}>9600</option>
-                            <option value={19200}>19200</option>
-                            <option value={57600}>57600</option>
-                            <option value={115200}>115200</option>
-                        </select>
-                    </label>
-                    <label>Data Bits:
-                        <select name = "databits_select" ref="databitsSelectInput">
-                            <option value={8}>8</option>
-                            <option value={7}>7</option>
-                            <option value={6}>6</option>
-                            <option value={5}>5</option>
-                        </select>
-                    </label>
-                    <label>Stop Bits:
-                        <select name = "stopbits_select" ref="stopbitsSelectInput">
-                            <option value={1}>1</option>
-                            <option value={2}>2</option>
-                        </select>
-                    </label>
-                    <label>Parity:
-                        <select name = "parity_select" ref="paritySelectInput">
-                            <option value="none">none</option>
-                            <option value="even">even</option>
-                            <option value="odd">odd</option>
-                        </select>
-                    </label>
-                </form>
+                <SelectField
+                    fullWidth={true}
+                    value={this.state.port}
+                    onChange={this.handlePortChange.bind(this) }
+                    floatingLabelText="Port"
+                    >
+                    {
+                        Array.from(ports).map((port) => {
+                            return (
+                                <MenuItem key={port} value={port} primaryText={port} />
+                            );
+                        })
+                    }
+                </SelectField>
+                <SelectField
+                    autoWidth = {true}
+                    value={this.state.baudrate}
+                    onChange={this.handleBaudrateChange.bind(this) }
+                    floatingLabelText="Baudrate"
+                    >
+                    <MenuItem key={9600} value={9600} primaryText={"9600"} />
+                    <MenuItem key={19200} value={19200} primaryText={"19200"} />
+                    <MenuItem key={57600} value={57600} primaryText={"57600"} />
+                    <MenuItem key={115200} value={115200} primaryText={"115200"} />
+                </SelectField>
+                <SelectField
+                    autoWidth = {true}
+                    value={this.state.databits}
+                    onChange={this.handleDatabitsChange.bind(this) }
+                    floatingLabelText="Data Bits"
+                    >
+                    <MenuItem key={5} value={5} primaryText={"5"} />
+                    <MenuItem key={6} value={6} primaryText={"6"} />
+                    <MenuItem key={7} value={7} primaryText={"7"} />
+                    <MenuItem key={8} value={8} primaryText={"8"} />
+                </SelectField>
+                <SelectField
+                    autoWidth = {true}
+                    value={this.state.stopbits}
+                    onChange={this.handleStopbitsChange.bind(this) }
+                    floatingLabelText="Stop Bits"
+                    >
+                    <MenuItem key={1} value={1} primaryText={"1"} />
+                    <MenuItem key={2} value={2} primaryText={"2"} />
+                </SelectField>
+                <SelectField
+                    autoWidth = {true}
+                    value={this.state.parity}
+                    onChange={this.handleParityChange.bind(this) }
+                    floatingLabelText="Parity"
+                    >
+                    <MenuItem key={'none'} value={'none'} primaryText={"none"} />
+                    <MenuItem key={'even'} value={'even'} primaryText={"even"} />
+                    <MenuItem key={'odd'} value={'odd'} primaryText={"odd"} />
+                </SelectField>
             </div>
         );
     }
@@ -95,12 +121,8 @@ class SerialSetup extends React.Component {
 
 var styles = {
     base: {
-        background: 'rgba(37, 40, 48, 1)',
-        width: "60vw",
-        padding: "20px"
     },
     primary: {
-        background: 'rgba(40, 45, 54, 1)'
     }
 };
 

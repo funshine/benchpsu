@@ -1,12 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
 import Radium from 'radium';
-import WeUI from 'react-weui';
-import 'weui';
+import RaisedButton from 'material-ui/RaisedButton';
 import PowerDisplay from './powerDisplay';
 import TextOutput from './textOutput';
-
-const {Button, Toast, ActionSheet, ButtonArea, Input} = WeUI;
 
 @Radium
 class PowerController extends React.Component {
@@ -51,14 +48,12 @@ class PowerController extends React.Component {
     }
     render() {
         return (
-            <section style={[styles.base]}>
+            <div style={[styles.base]}>
+                <RaisedButton style={styles.button} primary={true} disabled={this.state.startButtonDisabled} onTouchTap={this.startRepeatTimer.bind(this) }>开始</RaisedButton>
+                <RaisedButton style={styles.button} secondary={true} disabled={this.state.stopButtonDisabled} onTouchTap={this.stopRepeatTimer.bind(this) }>停止</RaisedButton>
+                <RaisedButton style={styles.button} secondary={true} onTouchTap={this.clearPowerValue.bind(this) }>清除</RaisedButton>
+                <RaisedButton style={styles.button} primary={true} onTouchTap={this.showSparkline.bind(this) }>{this.state.sparklineButtonValue}</RaisedButton>
                 <TextOutput value={this.state.serialRead}></TextOutput>
-                <ButtonArea>
-                    <Button type="primary" disabled={this.state.startButtonDisabled} size="small" onClick={this.startRepeatTimer.bind(this) }>开始</Button>
-                    <Button type="warn" size="small" disabled={this.state.stopButtonDisabled} onClick={this.stopRepeatTimer.bind(this) }>停止</Button>
-                    <Button type="warn" size="small" onClick={this.clearPowerValue.bind(this) }>清除</Button>
-                    <Button type="primary" size="small" onClick={this.showSparkline.bind(this) }>{this.state.sparklineButtonValue}</Button>
-                </ButtonArea>
                 <table>
                     <tbody>
                         <tr>
@@ -87,7 +82,7 @@ class PowerController extends React.Component {
                         </tr>
                     </tbody>
                 </table>
-            </section>
+            </div>
         );
     }
     startRepeatTimer() {
@@ -138,8 +133,10 @@ class PowerController extends React.Component {
 
 var styles = {
     base: {
-        background: 'rgba(37, 40, 48, 1)',
         padding: '30px'
+    },
+    button: {
+        margin: 12
     }
 };
 

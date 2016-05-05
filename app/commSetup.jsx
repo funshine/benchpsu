@@ -89,22 +89,18 @@ class CommunicationSetup extends React.Component {
             [className]: className
         });
         return (
-            <section {...others} className={cls} style={[styles.base, styles.primary]}>
+            <div {...others} className={cls} style={[styles.base, styles.primary]}>
                 <SerialSetup onUserInput={this.handleUserInput} ports={this.state.ports}> </SerialSetup>
                 <SerialSetup onUserInput={this.handleUserInput} ports={this.state.ports}> </SerialSetup>
-            </section>
+            </div>
         );
     }
 };
 
 var styles = {
     base: {
-        background: 'rgba(37, 40, 48, 1)',
-        width: "60vw",
-        padding: "20px"
     },
     primary: {
-        background: 'rgba(40, 45, 54, 1)'
     }
 };
 

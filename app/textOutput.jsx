@@ -46,12 +46,11 @@ class TextOutput extends React.Component {
 
 var styles = {
     base: {
-        background: 'rgba(37, 40, 48, 1)',
         borderTopStyle: "none",
         borderRightStyle: "none",
         borderLeftStyle: "none",
         borderBottomStyle: "none",
-        color: "#fff",
+        color: "#303030",
         overflow: "auto",
         fontSize: "9pt",
         rows: 6,
@@ -60,7 +59,6 @@ var styles = {
         padding: "20px"
     },
     primary: {
-        background: 'rgba(40, 45, 54, 1)'
     }
 };
 
