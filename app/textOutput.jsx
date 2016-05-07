@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactDOM from "react-dom";
-import classNames from 'classnames';
-import Radium from 'radium';
+import muiThemeable from 'material-ui/styles/muiThemeable';
+import TextField from 'material-ui/TextField';
 
-@Radium
 class TextOutput extends React.Component {
     static propTypes = {
         value: React.PropTypes.string
@@ -32,34 +31,33 @@ class TextOutput extends React.Component {
         }
     }
 
+    getStyles() {
+        const styles = {
+            textarea: {
+                color: "#303030",
+                padding: "20px",
+            },
+        };
+        return styles;
+    }
     render() {
-        const {value, className, ...others} = this.props;
-        const cls = classNames({
-            [className]: className
-        });
+        const {value, ...others} = this.props;
+        const styles = this.getStyles();
         return (
-            <textarea value={value} readOnly={true} {...others} className={cls} style={[styles.base, styles.primary]}>
-            </textarea>
+            <TextField
+                {...others}
+                style={styles.textarea}
+                floatingLabelText="Serial Output"
+                multiLine={true}
+                fullWidth={true}
+                underlineShow={false}
+                rows={5}
+                rowsMax={5}
+                readOnly={true}
+                value={value}
+                />
         );
     }
 };
 
-var styles = {
-    base: {
-        borderTopStyle: "none",
-        borderRightStyle: "none",
-        borderLeftStyle: "none",
-        borderBottomStyle: "none",
-        color: "#303030",
-        overflow: "auto",
-        fontSize: "9pt",
-        rows: 6,
-        cols: 240,
-        width: "60vw",
-        padding: "20px"
-    },
-    primary: {
-    }
-};
-
-export default TextOutput;
+export default muiThemeable()(TextOutput);

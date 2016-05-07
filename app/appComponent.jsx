@@ -1,10 +1,9 @@
 'use strict';
 import React from "react";
 import ReactDOM from "react-dom";
-import classNames from 'classnames';
-import Radium from 'radium';
 import PowerController from './powerController';
 import CommSetup from './commSetup';
+import Paper from 'material-ui/Paper';
 import AppBar from 'material-ui/AppBar';
 import Dialog from 'material-ui/Dialog';
 import IconMenu from 'material-ui/IconMenu'
@@ -21,8 +20,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Tabs from 'material-ui/Tabs'
 import Tab from 'material-ui/Tabs/Tab'
 import SelectField from 'material-ui/SelectField';
+import muiThemeable from 'material-ui/styles/muiThemeable';
 
-@Radium
 class AppComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -42,7 +41,21 @@ class AppComponent extends React.Component {
         var window = remote.getCurrentWindow();
         window.close();
     };
+
+    getStyles() {
+        const canvasColor = this.props.muiTheme.baseTheme.palette.canvasColor;
+        const styles = {
+            paperContainer: {
+                backgroundColor: canvasColor,
+                overflow: 'hidden',
+            },
+        };
+        return styles;
+    }
+
     render() {
+        const styles = this.getStyles();
+        const {  ...others } = this.props;
         const helpDialogActions = [
             <RaisedButton
                 label="Cancel"
@@ -51,7 +64,7 @@ class AppComponent extends React.Component {
                 />
         ];
         return (
-            <div style={[styles.base, styles.primary]}>
+            <Paper {...others} style={styles.paperContainer}>
                 <AppBar
                     title="BenchPSU"
                     iconElementLeft={
@@ -68,6 +81,7 @@ class AppComponent extends React.Component {
                     }
                     iconElementRight={<IconButton onTouchTap={this.handleCose}><NavigationClose /></IconButton>}
                     />
+                    
                 <Tabs value={this.state.value} onChange={this.handleChange}>
                     <Tab label="监控" value="monitor">
                         <PowerController/>
@@ -82,6 +96,7 @@ class AppComponent extends React.Component {
                         </div>
                     </Tab>
                 </Tabs>
+                
                 <Dialog
                     title="BenchPSU V1.0"
                     actions={helpDialogActions}
@@ -91,23 +106,13 @@ class AppComponent extends React.Component {
                     >
                     BenchPSU 高精度电源控制软件。
                 </Dialog>
-            </div>
+            </Paper>
         );
     }
 }
 
-var styles = {
-    base: {
-    },
-    primary: {
-    },
-    menu: {
-        marginRight: 32,
-        marginBottom: 32,
-        float: 'left',
-        position: 'relative',
-        zIndex: 0,
-    }
+AppComponent.propTypes = {
+    muiTheme: React.PropTypes.object.isRequired,
 };
 
-export default AppComponent;
+export default muiThemeable()(AppComponent);

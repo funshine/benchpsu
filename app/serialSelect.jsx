@@ -1,12 +1,10 @@
 import React from 'react';
 import ReactDOM from "react-dom";
-import classNames from 'classnames';
-import Radium from 'radium';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import muiThemeable from 'material-ui/styles/muiThemeable';
 
-@Radium
-class SerialSetup extends React.Component {
+class SerialSelect extends React.Component {
 
     static propTypes = {
         ports: React.PropTypes.object
@@ -49,16 +47,23 @@ class SerialSetup extends React.Component {
     handleStopbitsChange = (event, index, value) => this.setState({ stopbits: value });
     handleParityChange = (event, index, value) => this.setState({ parity: value });
 
+    getStyles() {
+        const styles = {
+            base: {
+            },
+            primary: {
+            },
+        };
+        return styles;
+    }
     render() {
-        const {className, ports, ...others} = this.props;
-        const cls = classNames({
-            [className]: className
-        });
+        const styles = this.getStyles();
+        const {ports, ...others} = this.props;
         if (ports === null) {
             return;
         }
         return (
-            <div {...others} className={cls} style={[styles.base, styles.primary]}>
+            <div {...others} style={styles.base}>
                 <SelectField
                     fullWidth={true}
                     value={this.state.port}
@@ -119,11 +124,4 @@ class SerialSetup extends React.Component {
     }
 };
 
-var styles = {
-    base: {
-    },
-    primary: {
-    }
-};
-
-export default SerialSetup;
+export default muiThemeable()(SerialSelect);

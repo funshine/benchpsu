@@ -3,7 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import DarkRawTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+import DarkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import AppComponent from './appComponent';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -15,7 +15,7 @@ injectTapEventPlugin();
 class MainWindow extends React.Component {
     render() {
         return (
-            <MuiThemeProvider muiTheme={getMuiTheme() }>
+            <MuiThemeProvider muiTheme={getMuiTheme(DarkBaseTheme) }>
                 <AppComponent/>
             </MuiThemeProvider>
         );

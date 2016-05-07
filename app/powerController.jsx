@@ -1,11 +1,10 @@
 import React from 'react';
-import classNames from 'classnames';
-import Radium from 'radium';
 import RaisedButton from 'material-ui/RaisedButton';
+import Paper from 'material-ui/Paper';
+import muiThemeable from 'material-ui/styles/muiThemeable';
 import PowerDisplay from './powerDisplay';
 import TextOutput from './textOutput';
 
-@Radium
 class PowerController extends React.Component {
     constructor(props) {
         super(props);
@@ -19,7 +18,7 @@ class PowerController extends React.Component {
             pi: [],
             nv: [],
             ni: [],
-            serialRead: "serial"
+            serialRead: ""
         };
     }
     componentDidMount() {
@@ -46,14 +45,28 @@ class PowerController extends React.Component {
         this.state.repeatTimer && clearInterval(this.state.repeatTimer);
         port.close();
     }
+
+    getStyles() {
+        const styles = {
+            base: {
+                padding: '30px'
+            },
+            button: {
+                margin: 12
+            },
+        };
+        return styles;
+    }
     render() {
+        const styles = this.getStyles();
+        const {  ...others } = this.props;
         return (
-            <div style={[styles.base]}>
+            <Paper {...others} style={styles.base}>
                 <RaisedButton style={styles.button} primary={true} disabled={this.state.startButtonDisabled} onTouchTap={this.startRepeatTimer.bind(this) }>开始</RaisedButton>
                 <RaisedButton style={styles.button} secondary={true} disabled={this.state.stopButtonDisabled} onTouchTap={this.stopRepeatTimer.bind(this) }>停止</RaisedButton>
                 <RaisedButton style={styles.button} secondary={true} onTouchTap={this.clearPowerValue.bind(this) }>清除</RaisedButton>
                 <RaisedButton style={styles.button} primary={true} onTouchTap={this.showSparkline.bind(this) }>{this.state.sparklineButtonValue}</RaisedButton>
-                <TextOutput value={this.state.serialRead}></TextOutput>
+                <TextOutput {...others} value={this.state.serialRead}></TextOutput>
                 <table>
                     <tbody>
                         <tr>
@@ -82,7 +95,7 @@ class PowerController extends React.Component {
                         </tr>
                     </tbody>
                 </table>
-            </div>
+            </Paper>
         );
     }
     startRepeatTimer() {
@@ -131,13 +144,4 @@ class PowerController extends React.Component {
     }
 }
 
-var styles = {
-    base: {
-        padding: '30px'
-    },
-    button: {
-        margin: 12
-    }
-};
-
-export default PowerController;
+export default muiThemeable()(PowerController);

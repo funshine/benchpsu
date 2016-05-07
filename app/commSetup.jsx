@@ -1,10 +1,8 @@
 import React from 'react';
 import ReactDOM from "react-dom";
-import classNames from 'classnames';
-import Radium from 'radium';
-import SerialSetup from './serialSetup';
+import muiThemeable from 'material-ui/styles/muiThemeable';
+import SerialSelect from './serialSelect';
 
-@Radium
 class CommunicationSetup extends React.Component {
 
     static propTypes = {
@@ -83,25 +81,25 @@ class CommunicationSetup extends React.Component {
     handleUserInput(port, baudrate, databits, stopbits, parity) {
         console.log(port, baudrate, databits, stopbits, parity);
     }
+
+    getStyles() {
+        const styles = {
+            base: {
+                padding: '32px',
+            },
+        };
+        return styles;
+    }
     render() {
-        const {className, ...others} = this.props;
-        const cls = classNames({
-            [className]: className
-        });
+        const styles = this.getStyles();
+        const {  ...others } = this.props;
         return (
-            <div {...others} className={cls} style={[styles.base, styles.primary]}>
-                <SerialSetup onUserInput={this.handleUserInput} ports={this.state.ports}> </SerialSetup>
-                <SerialSetup onUserInput={this.handleUserInput} ports={this.state.ports}> </SerialSetup>
+            <div {...others} style={styles.base}>
+                <SerialSelect onUserInput={this.handleUserInput} ports={this.state.ports} />
+                <SerialSelect onUserInput={this.handleUserInput} ports={this.state.ports} />
             </div>
         );
     }
 };
 
-var styles = {
-    base: {
-    },
-    primary: {
-    }
-};
-
-export default CommunicationSetup;
+export default muiThemeable()(CommunicationSetup);

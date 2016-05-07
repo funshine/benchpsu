@@ -11,7 +11,7 @@ var config = {
         powerDisplay: ['./app/powerDisplay.jsx'],
         powerValue: ['./app/powerValue.jsx'],
         textOutput: ['./app/textOutput.jsx'],
-        serialSetup: ['./app/serialSetup.jsx'],
+        serialSelect: ['./app/serialSelect.jsx'],
         commSetup: ['./app/commSetup.jsx']
     },
     output: {
