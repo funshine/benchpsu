@@ -3,7 +3,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import PowerDisplay from './powerDisplay';
-import TextOutput from './textOutput';
 
 class PowerController extends React.Component {
     constructor(props) {
@@ -17,33 +16,13 @@ class PowerController extends React.Component {
             pv: [],
             pi: [],
             nv: [],
-            ni: [],
-            serialRead: ""
+            ni: []
         };
     }
     componentDidMount() {
-        var serialport = window.require("serialport");
-        var SerialPort = serialport.SerialPort;
-        var port = new SerialPort('/dev/cu.usbmodem183', {
-            parser: serialport.parsers.readline('\n')
-        }, false);
-
-        var pComponent = this;
-        port.open(function (err) {
-            if (err) {
-                return console.log('Error opening serial port: ', err.message);
-            }
-            port.on('data', function (data) {
-                console.log(data);
-                pComponent.setState({
-                    serialRead: pComponent.state.serialRead + "\\\n" + data
-                });
-            });
-        });
     }
     componentWillUnmount() {
         this.state.repeatTimer && clearInterval(this.state.repeatTimer);
-        port.close();
     }
 
     getStyles() {
@@ -66,7 +45,6 @@ class PowerController extends React.Component {
                 <RaisedButton style={styles.button} secondary={true} disabled={this.state.stopButtonDisabled} onTouchTap={this.stopRepeatTimer.bind(this) }>停止</RaisedButton>
                 <RaisedButton style={styles.button} secondary={true} onTouchTap={this.clearPowerValue.bind(this) }>清除</RaisedButton>
                 <RaisedButton style={styles.button} primary={true} onTouchTap={this.showSparkline.bind(this) }>{this.state.sparklineButtonValue}</RaisedButton>
-                <TextOutput {...others} value={this.state.serialRead}></TextOutput>
                 <table>
                     <tbody>
                         <tr>

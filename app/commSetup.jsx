@@ -2,24 +2,24 @@ import React from 'react';
 import ReactDOM from "react-dom";
 import muiThemeable from 'material-ui/styles/muiThemeable';
 import SerialSelect from './serialSelect';
+import TextOutput from './textOutput';
 
 class CommunicationSetup extends React.Component {
-
     static propTypes = {
-        portPower: React.PropTypes.object,
-        portMeter: React.PropTypes.object
     };
 
     static defaultProps = {
-        portPower: { port: '/dev/cu.usbmodem183', config: { baudRate: 115200, dataBits: 8, stopBits: 1, parity: "none" } },
-        portMeter: null
     };
 
     constructor(props) {
         super(props);
         this.state = {
             ports: new Set(),
-            scanTimer: null
+            scanTimer: null,
+            portMeter: null,
+            portMeterRead: "",
+            portPower: null,
+            portPowerRead: ""
         };
     }
 
@@ -75,11 +75,76 @@ class CommunicationSetup extends React.Component {
         );
     }
 
+    componentDidMount() {
+        this.state.portPower && this.state.portPower.isOpen() && this.state.portPower.close();
+        var serialport = window.require("serialport");
+        var SerialPort = serialport.SerialPort;
+        var ptPower = new SerialPort('/dev/cu.usbmodem183', {
+            parser: serialport.parsers.readline('\n')
+        }, false);
+
+        ptPower.open((err) => {
+            if (err) {
+                return console.log('Error opening serial port: ', err.message);
+            }
+            ptPower.on('data', (data) => {
+                console.log(data);
+                this.setState({
+                    portPowerRead: this.state.portPowerRead + "\n" + data
+                });
+            });
+        });
+    }
+
     componentWillUnmount() {
         this.state.scanTimer && clearInterval(this.state.scanTimer);
+        this.state.portPower && this.state.portPower.isOpen() && this.state.portPower.close();
+        this.state.portMeter && this.state.portMeter.isOpen() && this.state.portMeter.close();
+        console.log("componentWillUnmount");
     }
-    handleUserInput(port, baudrate, databits, stopbits, parity) {
-        console.log(port, baudrate, databits, stopbits, parity);
+
+    handlePortPowerChanged(port, baudrate, databits, stopbits, parity) {
+        console.log("Port Power", port, baudrate, databits, stopbits, parity);
+        this.state.portPower && this.state.portPower.isOpen() && this.state.portPower.close();
+        var serialport = window.require("serialport");
+        var SerialPort = serialport.SerialPort;
+        var ptPower = new SerialPort(port, {
+            parser: serialport.parsers.readline('\n')
+        }, false);
+
+        ptPower.open((err) => {
+            if (err) {
+                return console.log('Error opening serial port: ', err.message);
+            }
+            ptPower.on('data', (data) => {
+                console.log(data);
+                this.setState({
+                    portPowerRead: this.state.portPowerRead + "\n" + data
+                });
+            });
+        });
+    }
+
+    handlePortMeterChanged(port, baudrate, databits, stopbits, parity) {
+        console.log("Port Meter", port, baudrate, databits, stopbits, parity);
+        this.state.portMeter && this.state.portMeter.isOpen() && this.state.portMeter.close();
+        var serialport = window.require("serialport");
+        var SerialPort = serialport.SerialPort;
+        var ptMeter = new SerialPort(port, {
+            parser: serialport.parsers.readline('\n')
+        }, false);
+
+        ptMeter.open((err) => {
+            if (err) {
+                return console.log('Error opening serial port: ', err.message);
+            }
+            ptMeter.on('data', (data) => {
+                console.log(data);
+                this.setState({
+                    portMeterRead: this.state.portMeterRead + "\n" + data
+                });
+            });
+        });
     }
 
     getStyles() {
@@ -95,8 +160,10 @@ class CommunicationSetup extends React.Component {
         const {  ...others } = this.props;
         return (
             <div {...others} style={styles.base}>
-                <SerialSelect onUserInput={this.handleUserInput} ports={this.state.ports} />
-                <SerialSelect onUserInput={this.handleUserInput} ports={this.state.ports} />
+                <SerialSelect onUserInput={this.handlePortPowerChanged.bind(this) } ports={this.state.ports} />
+                <TextOutput {...others} value={this.state.portPowerRead}></TextOutput>
+                <SerialSelect onUserInput={this.handlePortMeterChanged.bind(this) } ports={this.state.ports} />
+                <TextOutput {...others} value={this.state.portMeterRead}></TextOutput>
             </div>
         );
     }

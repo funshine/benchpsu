@@ -53,7 +53,6 @@ class TextOutput extends React.Component {
                 underlineShow={false}
                 rows={5}
                 rowsMax={5}
-                readOnly={true}
                 value={value}
                 />
         );
