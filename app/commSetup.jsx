@@ -75,27 +75,6 @@ class CommunicationSetup extends React.Component {
         );
     }
 
-    componentDidMount() {
-        this.state.portPower && this.state.portPower.isOpen() && this.state.portPower.close();
-        var serialport = window.require("serialport");
-        var SerialPort = serialport.SerialPort;
-        var ptPower = new SerialPort('/dev/cu.usbmodem183', {
-            parser: serialport.parsers.readline('\n')
-        }, false);
-
-        ptPower.open((err) => {
-            if (err) {
-                return console.log('Error opening serial port: ', err.message);
-            }
-            ptPower.on('data', (data) => {
-                console.log(data);
-                this.setState({
-                    portPowerRead: this.state.portPowerRead + "\n" + data
-                });
-            });
-        });
-    }
-
     componentWillUnmount() {
         this.state.scanTimer && clearInterval(this.state.scanTimer);
         this.state.portPower && this.state.portPower.isOpen() && this.state.portPower.close();
@@ -160,9 +139,9 @@ class CommunicationSetup extends React.Component {
         const {  ...others } = this.props;
         return (
             <div {...others} style={styles.base}>
-                <SerialSelect onUserInput={this.handlePortPowerChanged.bind(this) } ports={this.state.ports} />
+                <SerialSelect {...others} onUserInput={this.handlePortPowerChanged.bind(this) } ports={this.state.ports} />
                 <TextOutput {...others} value={this.state.portPowerRead}></TextOutput>
-                <SerialSelect onUserInput={this.handlePortMeterChanged.bind(this) } ports={this.state.ports} />
+                <SerialSelect {...others} onUserInput={this.handlePortMeterChanged.bind(this) } ports={this.state.ports} />
                 <TextOutput {...others} value={this.state.portMeterRead}></TextOutput>
             </div>
         );

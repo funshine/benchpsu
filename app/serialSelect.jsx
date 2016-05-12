@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from "react-dom";
 import SelectField from 'material-ui/SelectField';
+import RaisedButton from 'material-ui/RaisedButton';
 import MenuItem from 'material-ui/MenuItem';
 import muiThemeable from 'material-ui/styles/muiThemeable';
 
@@ -25,13 +26,6 @@ class SerialSelect extends React.Component {
         }
     }
 
-    componentDidUpdate() {
-        this.onUserInput();
-    }
-
-    componentWillUnmount() {
-    }
-
     onUserInput() {
         this.props.onUserInput && this.state.port && this.props.onUserInput(
             this.state.port,
@@ -39,13 +33,14 @@ class SerialSelect extends React.Component {
             this.state.databits,
             this.state.stopbits,
             this.state.parity
-        )
+        );
     }
     handlePortChange = (event, index, value) => this.setState({ port: value });
     handleBaudrateChange = (event, index, value) => this.setState({ baudrate: value });
     handleDatabitsChange = (event, index, value) => this.setState({ databits: value });
     handleStopbitsChange = (event, index, value) => this.setState({ stopbits: value });
     handleParityChange = (event, index, value) => this.setState({ parity: value });
+    handleApply = () => this.onUserInput();
 
     getStyles() {
         const styles = {
@@ -119,6 +114,7 @@ class SerialSelect extends React.Component {
                     <MenuItem key={'even'} value={'even'} primaryText={"even"} />
                     <MenuItem key={'odd'} value={'odd'} primaryText={"odd"} />
                 </SelectField>
+                <RaisedButton primary={true} onTouchTap={this.handleApply.bind(this) }>应用</RaisedButton>
             </div>
         );
     }
