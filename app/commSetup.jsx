@@ -88,19 +88,27 @@ class CommunicationSetup extends React.Component {
         var serialport = window.require("serialport");
         var SerialPort = serialport.SerialPort;
         var ptPower = new SerialPort(port, {
-            parser: serialport.parsers.readline('\n')
+            parser: serialport.parsers.raw
         }, false);
-
+        this.state.portPower = ptPower;
+        
         ptPower.open((err) => {
             if (err) {
                 return console.log('Error opening serial port: ', err.message);
             }
             ptPower.on('data', (data) => {
                 console.log(data);
+                console.log(data.toString('hex'));
                 this.setState({
-                    portPowerRead: this.state.portPowerRead + "\n" + data
+                    portPowerRead: this.state.portPowerRead + data.toString('utf8')
                 });
             });
+            let buffer = new Buffer(4);
+            buffer[0] = 250;
+            buffer[1] = 251;
+            buffer[2] = 2;
+            buffer[3] = 3;
+            this.state.portPower.write(buffer);
         });
     }
 
@@ -112,7 +120,8 @@ class CommunicationSetup extends React.Component {
         var ptMeter = new SerialPort(port, {
             parser: serialport.parsers.readline('\n')
         }, false);
-
+        this.state.portMeter = ptMeter;
+        
         ptMeter.open((err) => {
             if (err) {
                 return console.log('Error opening serial port: ', err.message);
