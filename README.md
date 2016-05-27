@@ -39,11 +39,18 @@ npm run clean (delete node_module in windows)
 ```bash
 npm install
 ```
+
+###it may fail due to the bad network when download electron-prebuilt, you can run
+```bash
+cd ~/.electron
+wget https://github.com/electron/electron/releases/download/v1.2.0/electron-v1.2.0-darwin-x64.zip
+```
+
 ```bash
 rm ./node_module/serialport/build/Release/serialport.node
 ```
 ```bash
-npm run electron-rebuild
+npm run rebuild-serialport
 ```
 
 ```bash
@@ -66,4 +73,27 @@ note: if in windows 7, modify ./.vscode/launch.json
 with
 ```json
 "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd",
+```
+
+using node-usb
+
+```bash
+Instead of using electron-rebuild (which I couldn't get to work with node-usb's use of node-pre-gyp), I used node-gyp directly:
+
+$ npm install -g node-gyp
+But first I needed to change the variables property in the node_modules/usb/binding.gyp to include module_name and module_path:
+
+  'variables': {
+    'use_udev%': 1,
+    'use_system_libusb%': 'false',
+    'module_name': 'usb_bindings',
+    'module_path': './src/binding'
+  },
+Then, I rebuilt with node-gyp:
+
+$ cd node_modules/usb
+$ HOME=~/.electron-gyp node-gyp rebuild --target=0.26.0 --arch=ia64 --dist-url=https://atom.io/download/atom-shell
+
+The --target flag for the last command specifies the version of electron you are building for and must be set accordingly.
+You can get your version by typing the command electron -v.
 ```

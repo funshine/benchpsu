@@ -1,4 +1,5 @@
 const electron = require('electron');
+// const usb = require('usb');
 // Module to control application life.
 const app = electron.app;
 // Module to create native browser window.
@@ -7,6 +8,7 @@ const BrowserWindow = electron.BrowserWindow;
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+// let usbList = usb.getDeviceList();
 
 function createWindow() {
   // Create the browser window.
@@ -30,6 +32,9 @@ function createWindow() {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+  // usbList.forEach( (dev) => {
+  //   console.log('VID: ', dev.deviceDescriptor.idVendor, 'PID: ', dev.deviceDescriptor.idProduct);
+  // });
 }
 
 // This method will be called when Electron has finished
