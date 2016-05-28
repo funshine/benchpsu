@@ -7,8 +7,8 @@
   "scripts": {
     "start": "./node_modules/.bin/electron .",
     "remove-serialport": "rm ./node_modules/serialport/build/Release/serialport.node",
-    "rebuild-serialport": "./node_modules/.bin/electron-rebuild -v 0.37.8 -p -f -m ./ -w serialport -e ./node_modules/electron-prebuilt",
-    "rebuild-usb": "./node_modules/.bin/electron-rebuild -v 0.37.8 -p -f -m ./ -w usb -e ./node_modules/electron-prebuilt",
+    "rebuild-serialport": "./node_modules/.bin/electron-rebuild -v 1.2.0 -p -f -m ./ -w serialport -e ./node_modules/electron-prebuilt",
+    "rebuild-usb": "./node_modules/.bin/electron-rebuild -v 1.2.0 -p -f -m ./ -w usb -e ./node_modules/electron-prebuilt",
     "webpack": "./node_modules/.bin/webpack --watch",
     "clean": "rm -rf node_modules"
   },
@@ -29,31 +29,31 @@
   "author": "Zeroday",
   "dependencies": {
     "material-ui": "^0.15.0",
-    "react": "^15.0.2",
-    "react-dom": "^15.0.2",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0",
     "react-sparklines": "^1.5.2",
     "react-tap-event-plugin": "^1.0.0",
-    "serialport": "^3.1.1",
+    "serialport": "^3.1.2",
     "usb": "^1.1.2"
   },
   "devDependencies": {
     "babel": "^6.5.2",
-    "babel-core": "^6.8.0",
+    "babel-core": "^6.9.0",
     "babel-eslint": "^6.0.4",
     "babel-loader": "^6.2.4",
-    "babel-plugin-transform-class-properties": "^6.8.0",
+    "babel-plugin-transform-class-properties": "^6.9.0",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
-    "babel-preset-es2015": "^6.3.13",
-    "babel-preset-react": "^6.3.13",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
     "css-loader": "^0.23.1",
-    "electron-packager": "^7.0.0",
+    "electron-packager": "^7.0.2",
     "electron-prebuilt": "^1.2.0",
-    "electron-rebuild": "^1.1.3",
-    "eslint-plugin-react": "^5.0.1",
+    "electron-rebuild": "^1.1.5",
+    "eslint-plugin-react": "^5.1.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "style-loader": "^0.13.1",
-    "webpack": "^1.12.9",
-    "webpack-target-electron-renderer": "^0.3.0"
+    "webpack": "^1.13.1",
+    "webpack-target-electron-renderer": "^0.4.0"
   }
 }
