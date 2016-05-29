@@ -10,6 +10,10 @@ const BrowserWindow = electron.BrowserWindow;
 let mainWindow;
 let usbList = usb.getDeviceList();
 let usbdev;
+let iface;
+let inEndpoint;
+let outEndpoint;
+usb.setDebugLevel(4);
 
 function createWindow() {
   // Create the browser window.
@@ -34,7 +38,7 @@ function createWindow() {
     mainWindow = null;
   });
   usbList.forEach( (dev) => {
-    console.log('VID: ', dev.deviceDescriptor.idVendor, 'PID: ', dev.deviceDescriptor.idProduct);
+    // console.log('VID: ', dev.deviceDescriptor.idVendor, 'PID: ', dev.deviceDescriptor.idProduct);
     // console.log(dev.deviceDescriptor);
   });
   // usbdev = usb.findByIds(0x0403,0x6001);  // for ft232
@@ -42,32 +46,49 @@ function createWindow() {
   usbdev = usb.findByIds(0x0483,0x374B);  // for nucleo
   if(usbdev!==undefined){
     console.log('VID: ', usbdev.deviceDescriptor.idVendor, 'PID: ', usbdev.deviceDescriptor.idProduct);
-    console.log('deviceDescriptor: ', usbdev.deviceDescriptor);
-    console.log('configDescriptor: ', usbdev.configDescriptor);
+    // console.log('deviceDescriptor: ', usbdev.deviceDescriptor);
+    // console.log('configDescriptor: ', usbdev.configDescriptor);
+    usbdev.close();
     usbdev.open();
-    let iface = usbdev.interfaces[0]
+    iface = usbdev.interfaces[3];
     if(iface!==undefined){
-      // iface.claim();
-      inEndpoint = iface.endpoints[0];
-      outEndpoint = iface.endpoints[1];
-      inEndpoint.transferType = 2;
-      inEndpoint.transfer(64, function (error, data) {
-          if (!error) {
-              console.log(data);
-          } else {
-              console.log(error);
-          }
+      if (iface.isKernelDriverActive()) {
+        console.log("KernelDriverActive");
+        iface.detachKernelDriver();
+      }
+      if (iface.isKernelDriverActive()) {
+        console.log("KernelDriverActive");
+        iface.detachKernelDriver();
+      }
+      iface.claim();
+      iface.claim();
+      console.log("**-------");
+      inEndpoint = iface.endpoints[1];
+      console.log(inEndpoint);
+      // outEndpoint = iface.endpoints[0];
+      inEndpoint.transfer(16, function (error, data) {
+        console.log("0-----**-------");
+        console.log(data);
+        // if (error) {
+        //   console.log("1-----**-------");
+        //   console.log(error);
+        // } else {
+        //   console.log("2-----**-------");
+        //   console.log(data);
+        // }
       });
-      inEndpoint.on('data', function (data) {
-          console.log(data);
-      });
-      inEndpoint.on('error', function (error) {
-          console.log(error);
-      });
-      outEndpoint.transferType = 2;
-      outEndpoint.transfer(new Buffer('d\n'), function (err) {
-          console.log(err);
-      });
+      // inEndpoint.on('data', function (data) {
+      //   console.log("1-----**-------");
+      //   console.log(data);
+      // });
+      // inEndpoint.on('error', function (error) {
+      //   console.log("2-----**-------");
+      //   console.log(error);
+      // });
+      // inEndpoint.startPoll(3,16);
+      // outEndpoint.transfer(new Buffer('d\n'), function (err) {
+      //     console.log(err);
+      // });
     }
     // usbdev.close();
     // usbdev.getStringDescriptor(usbdev.deviceDescriptor.iManufacturer, (e, s)=>{
