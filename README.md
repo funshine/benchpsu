@@ -83,7 +83,7 @@ using node-usb
 ```bash
 Instead of using electron-rebuild (which couldn't get to work with node-usb's use of node-pre-gyp), use node-gyp directly:
 
-$ npm install -g node-gyp
+$ npm install node-gyp --save-dev
 First you need to change the variables property in the node_modules/usb/binding.gyp to include module_name and module_path:
 
   'variables': {
@@ -95,7 +95,7 @@ First you need to change the variables property in the node_modules/usb/binding.
 Then, rebuild with node-gyp:
 
 $ cd node_modules/usb
-$ node-gyp rebuild --target=1.2.0 --arch=ia64 --dist-url=https://atom.io/download/atom-shell
+$ ../.bin/node-gyp rebuild --target=1.2.0 --arch=x64 --dist-url=https://atom.io/download/atom-shell
 
 The --target flag for the last command specifies the version of electron you are building for and must be set accordingly.
 You can get your version by typing the command electron -v.

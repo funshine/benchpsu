@@ -8,7 +8,7 @@
     "start": "./node_modules/.bin/electron .",
     "remove-serialport": "rm ./node_modules/serialport/build/Release/serialport.node",
     "rebuild-serialport": "./node_modules/.bin/electron-rebuild -v 1.2.0 -p -f -m ./ -w serialport -e ./node_modules/electron-prebuilt",
-    "rebuild-usb": "cd node_modules/usb && node-gyp rebuild --target=1.2.0 --arch=x64 --dist-url=https://atom.io/download/atom-shell",
+    "rebuild-usb": "cd node_modules/usb && ../.bin/node-gyp rebuild --target=1.2.0 --arch=x64 --dist-url=https://atom.io/download/atom-shell",
     "webpack": "./node_modules/.bin/webpack --watch",
     "clean": "rm -rf node_modules"
   },
@@ -52,6 +52,7 @@
     "electron-rebuild": "^1.1.5",
     "eslint-plugin-react": "^5.1.1",
     "extract-text-webpack-plugin": "^1.0.1",
+    "node-gyp": "^3.3.1",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.1",
     "webpack-target-electron-renderer": "^0.4.0"
