@@ -38,7 +38,8 @@ function createWindow() {
     // console.log(dev.deviceDescriptor);
   });
   // usbdev = usb.findByIds(0x0403,0x6001);  // for ft232
-  usbdev = usb.findByIds(0x1A86,0x7523);  // for ch340
+  // usbdev = usb.findByIds(0x1A86,0x7523);  // for ch340
+  usbdev = usb.findByIds(0x0483,0x374B);  // for nucleo
   if(usbdev!==undefined){
     console.log('VID: ', usbdev.deviceDescriptor.idVendor, 'PID: ', usbdev.deviceDescriptor.idProduct);
     console.log('deviceDescriptor: ', usbdev.deviceDescriptor);
