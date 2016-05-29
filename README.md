@@ -77,11 +77,14 @@ with
 
 using node-usb
 
+
+    in windows, node-usb need VS2013 instead of VS2015 to compile. don't forget Set the environment variable GYP_MSVS_VERSION=2013
+    make sure install node the same version as electron use, for example, electron v1.2.0 use nodejs 6.1.0
 ```bash
-Instead of using electron-rebuild (which I couldn't get to work with node-usb's use of node-pre-gyp), I used node-gyp directly:
+Instead of using electron-rebuild (which couldn't get to work with node-usb's use of node-pre-gyp), use node-gyp directly:
 
 $ npm install -g node-gyp
-But first I needed to change the variables property in the node_modules/usb/binding.gyp to include module_name and module_path:
+First you need to change the variables property in the node_modules/usb/binding.gyp to include module_name and module_path:
 
   'variables': {
     'use_udev%': 1,
@@ -89,10 +92,10 @@ But first I needed to change the variables property in the node_modules/usb/bind
     'module_name': 'usb_bindings',
     'module_path': './src/binding'
   },
-Then, I rebuilt with node-gyp:
+Then, rebuild with node-gyp:
 
 $ cd node_modules/usb
-$ HOME=~/.electron-gyp node-gyp rebuild --target=0.26.0 --arch=ia64 --dist-url=https://atom.io/download/atom-shell
+$ node-gyp rebuild --target=1.2.0 --arch=ia64 --dist-url=https://atom.io/download/atom-shell
 
 The --target flag for the last command specifies the version of electron you are building for and must be set accordingly.
 You can get your version by typing the command electron -v.

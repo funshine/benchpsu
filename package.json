@@ -8,7 +8,7 @@
     "start": "./node_modules/.bin/electron .",
     "remove-serialport": "rm ./node_modules/serialport/build/Release/serialport.node",
     "rebuild-serialport": "./node_modules/.bin/electron-rebuild -v 1.2.0 -p -f -m ./ -w serialport -e ./node_modules/electron-prebuilt",
-    "rebuild-usb": "./node_modules/.bin/electron-rebuild -v 1.2.0 -p -f -m ./ -w usb -e ./node_modules/electron-prebuilt",
+    "rebuild-usb": "cd node_modules/usb && node-gyp rebuild --target=1.2.0 --arch=x64 --dist-url=https://atom.io/download/atom-shell",
     "webpack": "./node_modules/.bin/webpack --watch",
     "clean": "rm -rf node_modules"
   },
