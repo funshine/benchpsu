@@ -9,6 +9,7 @@ const BrowserWindow = electron.BrowserWindow;
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 let usbList = usb.getDeviceList();
+let usbdev;
 
 function createWindow() {
   // Create the browser window.
@@ -34,7 +35,48 @@ function createWindow() {
   });
   usbList.forEach( (dev) => {
     console.log('VID: ', dev.deviceDescriptor.idVendor, 'PID: ', dev.deviceDescriptor.idProduct);
+    // console.log(dev.deviceDescriptor);
   });
+  // usbdev = usb.findByIds(0x0403,0x6001);  // for ft232
+  usbdev = usb.findByIds(0x1A86,0x7523);  // for ch340
+  if(usbdev!==undefined){
+    console.log('VID: ', usbdev.deviceDescriptor.idVendor, 'PID: ', usbdev.deviceDescriptor.idProduct);
+    console.log('deviceDescriptor: ', usbdev.deviceDescriptor);
+    console.log('configDescriptor: ', usbdev.configDescriptor);
+    usbdev.open();
+    let iface = usbdev.interfaces[0]
+    if(iface!==undefined){
+      // iface.claim();
+      inEndpoint = iface.endpoints[0];
+      outEndpoint = iface.endpoints[1];
+      inEndpoint.transferType = 2;
+      inEndpoint.transfer(64, function (error, data) {
+          if (!error) {
+              console.log(data);
+          } else {
+              console.log(error);
+          }
+      });
+      inEndpoint.on('data', function (data) {
+          console.log(data);
+      });
+      inEndpoint.on('error', function (error) {
+          console.log(error);
+      });
+      outEndpoint.transferType = 2;
+      outEndpoint.transfer(new Buffer('d\n'), function (err) {
+          console.log(err);
+      });
+    }
+    // usbdev.close();
+    // usbdev.getStringDescriptor(usbdev.deviceDescriptor.iManufacturer, (e, s)=>{
+    //   if (e===undefined) {
+    //     console.log(s);
+    //   } else {
+    //     console.log(e);
+    //   }
+    // });
+  }
 }
 
 // This method will be called when Electron has finished
