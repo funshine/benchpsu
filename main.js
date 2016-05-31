@@ -13,7 +13,33 @@ let usbdev;
 let iface;
 let inEndpoint;
 let outEndpoint;
+let packageCount = 0;
+let errorCount = 0;
 usb.setDebugLevel(4);
+
+function getInfo() {
+    usbdev.getStringDescriptor(usbdev.deviceDescriptor.iManufacturer, (e, s)=>{
+      if (e===undefined) {
+        console.log('Manufacturer: ', s);
+      } else {
+        console.log(e);
+      }
+    });
+    usbdev.getStringDescriptor(usbdev.deviceDescriptor.iProduct, (e, s)=>{
+      if (e===undefined) {
+        console.log('Product: ', s);
+      } else {
+        console.log(e);
+      }
+    });
+    // usbdev.getStringDescriptor(usbdev.deviceDescriptor.iSerialNumer, (e, s)=>{
+    //   if (e===undefined) {
+    //     console.log('SerialNumer:', s);
+    //   } else {
+    //     console.log(e);
+    //   }
+    // });
+}
 
 function createWindow() {
   // Create the browser window.
@@ -43,61 +69,83 @@ function createWindow() {
   });
   // usbdev = usb.findByIds(0x0403,0x6001);  // for ft232
   // usbdev = usb.findByIds(0x1A86,0x7523);  // for ch340
-  usbdev = usb.findByIds(0x0483,0x374B);  // for nucleo
+  // usbdev = usb.findByIds(0x0483,0x374B);  // for nucleo
+  usbdev = usb.findByIds(0x3112,0x7801);  // for nucleo
   if(usbdev!==undefined){
     console.log('VID: ', usbdev.deviceDescriptor.idVendor, 'PID: ', usbdev.deviceDescriptor.idProduct);
     // console.log('deviceDescriptor: ', usbdev.deviceDescriptor);
     // console.log('configDescriptor: ', usbdev.configDescriptor);
     usbdev.close();
     usbdev.open();
-    iface = usbdev.interfaces[3];
+    
+    iface = usbdev.interfaces[0];
     if(iface!==undefined){
-      if (iface.isKernelDriverActive()) {
-        console.log("KernelDriverActive");
-        iface.detachKernelDriver();
-      }
-      if (iface.isKernelDriverActive()) {
-        console.log("KernelDriverActive");
-        iface.detachKernelDriver();
-      }
+      // if (iface.isKernelDriverActive()) {
+      //   console.log("KernelDriverActive");
+      //   iface.detachKernelDriver();
+      // }
       iface.claim();
-      iface.claim();
-      console.log("**-------");
-      inEndpoint = iface.endpoints[1];
-      console.log(inEndpoint);
-      // outEndpoint = iface.endpoints[0];
-      inEndpoint.transfer(16, function (error, data) {
-        console.log("0-----**-------");
-        console.log(data);
-        // if (error) {
-        //   console.log("1-----**-------");
-        //   console.log(error);
-        // } else {
-        //   console.log("2-----**-------");
-        //   console.log(data);
-        // }
-      });
-      // inEndpoint.on('data', function (data) {
-      //   console.log("1-----**-------");
+      getInfo();
+      
+      inEndpoint = iface.endpoints[0];
+      // console.log("**-------------------------------------------------");
+      // console.log(inEndpoint);
+      // console.log("inEndpoint", inEndpoint.direction, inEndpoint.transferType, inEndpoint.descriptor);
+      
+      outEndpoint = iface.endpoints[2];
+      // console.log("**-------------------------------------------------");
+      // console.log(outEndpoint);
+      // console.log("outEndpoint", outEndpoint.direction, outEndpoint.transferType, outEndpoint.descriptor);
+      
+      // inEndpoint.transfer(16, function (error, data) {
+      //   console.log("0-----**-------");
       //   console.log(data);
+      //   // if (error) {
+      //   //   console.log("1-----**-------");
+      //   //   console.log(error);
+      //   // } else {
+      //   //   console.log("2-----**-------");
+      //   //   console.log(data);
+      //   // }
       // });
-      // inEndpoint.on('error', function (error) {
-      //   console.log("2-----**-------");
-      //   console.log(error);
-      // });
-      // inEndpoint.startPoll(3,16);
-      // outEndpoint.transfer(new Buffer('d\n'), function (err) {
-      //     console.log(err);
-      // });
+      inEndpoint.on('data', function (data) {
+        // console.log("1-----**-------");
+        if(data.length===512){
+          packageCount++;
+        }
+        console.log(packageCount, data.length);
+      });
+      inEndpoint.on('error', function (error) {
+        // console.log("2-----**-------");
+        // console.log(error);
+        errorCount++;
+        console.log(errorCount, error);
+        inEndpoint.stopPoll();
+      });
+      inEndpoint.on('end', function (error) {
+        // console.log("2-----**-------");
+        // console.log(error);
+        console.log('Sending Stop Cmd');
+        outEndpoint.on('end', function (error) {
+          usbdev.close();
+        });
+        outEndpoint.transfer(new Buffer('A5A7A9ABADAF034B', 'hex'), function (err) {
+          if(err){
+            console.log(err);
+          }
+        });
+      });
+      inEndpoint.startPoll(3,512);
+      
+      let buf = new Buffer('A5A7A9ABADAF044B', 'hex');
+      console.log(buf);
+      outEndpoint.transfer(buf, function (err) {
+          if(err){
+            console.log(err);
+          }
+      });
     }
     // usbdev.close();
-    // usbdev.getStringDescriptor(usbdev.deviceDescriptor.iManufacturer, (e, s)=>{
-    //   if (e===undefined) {
-    //     console.log(s);
-    //   } else {
-    //     console.log(e);
-    //   }
-    // });
   }
 }
 
@@ -111,6 +159,9 @@ app.on('window-all-closed', function () {
   // On OS X it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
   if (process.platform !== 'darwin') {
+    inEndpoint.stopPoll(()=>{
+      // usbdev.close();
+    });
     app.quit();
   }
 });
