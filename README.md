@@ -36,7 +36,20 @@ Run the command prompt as Administrator
 ```bash
 npm run clean (delete node_module in windows)
 ```
+
+###Get react-dygraphs to local disk
 ```bash
+#in the project folder, run:
+cd ..
+git clone https://github.com/funshine/react-dygraphs
+cd react-dygraphs
+npm install
+cd ../benchpsu
+```
+
+###Install
+```bash
+#in the project folder, run:
 npm install
 ```
 

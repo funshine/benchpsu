@@ -2,6 +2,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import PowerController from './powerController';
+import PlotController from './plotController';
 import CommSetup from './commSetup';
 import Paper from 'material-ui/Paper';
 import AppBar from 'material-ui/AppBar';
@@ -15,6 +16,7 @@ import SvgIcon from 'material-ui/SvgIcon';
 import ActionMonitor from 'material-ui/svg-icons/action/visibility';
 import ActionSetting from 'material-ui/svg-icons/action/settings';
 import ActionCali from 'material-ui/svg-icons/action/build';
+import ActionTimeLine from 'material-ui/svg-icons/action/timeline';
 import ActionHelp from 'material-ui/svg-icons/action/help';
 import RaisedButton from 'material-ui/RaisedButton';
 import Tabs from 'material-ui/Tabs'
@@ -35,6 +37,7 @@ class AppComponent extends React.Component {
     changeToMonitor = () => this.setState({ value: "monitor" });
     changeToSetup = () => this.setState({ value: "setup" });
     changeToCalibration = () => this.setState({ value: "calibration" });
+    changeToPlot = () => this.setState({ value: "plot" });
     handleChange = (value) => this.setState({ value: value });
     handleCose = () => {
         var remote = require('remote');
@@ -76,12 +79,13 @@ class AppComponent extends React.Component {
                             <MenuItem primaryText="监控" leftIcon={ <ActionMonitor/> } onTouchTap={this.changeToMonitor}/>
                             <MenuItem primaryText="设置" leftIcon={ <ActionSetting/> } onTouchTap={this.changeToSetup}/>
                             <MenuItem primaryText="校准" leftIcon={ <ActionCali/> } onTouchTap={this.changeToCalibration}/>
+                            <MenuItem primaryText="图形" leftIcon={ <ActionTimeLine/> } onTouchTap={this.changeToPlot}/>
                             <MenuItem primaryText="帮助" leftIcon={ <ActionHelp/> } onTouchTap={this.handleOpenHelpDialog}/>
                         </IconMenu>
                     }
                     iconElementRight={<IconButton onTouchTap={this.handleCose}><NavigationClose /></IconButton>}
                     />
-                    
+
                 <Tabs value={this.state.value} onChange={this.handleChange}>
                     <Tab label="监控" value="monitor">
                         <PowerController/>
@@ -95,8 +99,11 @@ class AppComponent extends React.Component {
                             <RaisedButton label="取消" />
                         </div>
                     </Tab>
+                    <Tab label="图形" value="plot">
+                        <PlotController/>
+                    </Tab>
                 </Tabs>
-                
+
                 <Dialog
                     title="BenchPSU V1.0"
                     actions={helpDialogActions}

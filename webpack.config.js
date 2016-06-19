@@ -12,7 +12,8 @@ var config = {
         powerValue: ['./app/powerValue.jsx'],
         textOutput: ['./app/textOutput.jsx'],
         serialSelect: ['./app/serialSelect.jsx'],
-        commSetup: ['./app/commSetup.jsx']
+        commSetup: ['./app/commSetup.jsx'],
+        plotController: ['./app/plotController.jsx'],
     },
     output: {
         path: path.join(__dirname, 'dist'),
