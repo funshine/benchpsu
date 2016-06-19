@@ -63,6 +63,7 @@ class PlotController extends React.Component {
                     strokeWidth={1}
                     labels={this.state.dataLables}
                     width={document.documentElement.clientWidth - 100}
+                    showRangeSelector={true}
                     />
                 <Dygraph style={styles.dygraphs}
                     data={this.state.data}
@@ -71,6 +72,7 @@ class PlotController extends React.Component {
                     strokeWidth={1}
                     labels={this.state.dataLables}
                     width={document.documentElement.clientWidth - 100}
+                    showRangeSelector={true}
                     />
                 <Snackbar {...others}
                     open={this.state.openSnackbar}
