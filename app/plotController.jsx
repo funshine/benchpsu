@@ -87,6 +87,11 @@ class PlotController extends React.Component {
         if (this.state.startButtonDisabled) {
             return;
         }
+        for (let i = 0; i < 10000; i++) {
+            this.state.dataIndex++;
+            this.state.data.push([this.state.dataIndex, Math.random(), -1 + Math.random()]);
+        }
+
         this.state.repeatTimer = setInterval(() => {
             let index = this.state.dataIndex;
             index++;
@@ -97,7 +102,7 @@ class PlotController extends React.Component {
                 dataIndex: index,
                 // data: this.state.data.concat([[index, newValue1, -1 + newValue2]]),
             });
-        }, 200);
+        }, 1000);
         this.setState({ startButtonDisabled: true, stopButtonDisabled: false });
     }
     stopRepeatTimer() {
